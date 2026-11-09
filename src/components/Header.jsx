@@ -1,5 +1,49 @@
 const NAV_BTN =
-  'rounded-full border border-transparent px-4 py-[9px] text-[0.9rem] font-bold transition duration-200 hover:-translate-y-0.5';
+  'inline-flex items-center gap-2 rounded-full border border-transparent px-4 py-[9px] text-[0.9rem] font-bold transition duration-200 hover:-translate-y-0.5';
+
+// Ícone de pokébola, usado no botão da Pokédex.
+function PokeballIcon() {
+  return (
+    <svg
+      className="size-[1.1em]"
+      viewBox="0 0 24 24"
+      fill="none"
+      aria-hidden="true"
+    >
+      <circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="2" />
+      <path d="M3 12h6" stroke="currentColor" strokeWidth="2" />
+      <path d="M15 12h6" stroke="currentColor" strokeWidth="2" />
+      <circle
+        cx="12"
+        cy="12"
+        r="3"
+        fill="var(--surface)"
+        stroke="currentColor"
+        strokeWidth="2"
+      />
+    </svg>
+  );
+}
+
+// Ícone de pessoa, usado no botão de Treinadores.
+function TrainerIcon() {
+  return (
+    <svg
+      className="size-[1.1em]"
+      viewBox="0 0 24 24"
+      fill="none"
+      aria-hidden="true"
+    >
+      <circle cx="12" cy="8" r="3.5" stroke="currentColor" strokeWidth="2" />
+      <path
+        d="M5 20c0-3.3 3.1-6 7-6s7 2.7 7 6"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
 
 // Cabeçalho da aplicação, com título, navegação entre seções e troca de tema.
 function Header({
@@ -38,13 +82,15 @@ function Header({
           className={navClass('pokedex')}
           onClick={() => onChangeView('pokedex')}
         >
-          🐾 Pokédex
+          <PokeballIcon />
+          Pokédex
         </button>
         <button
           className={navClass('trainers')}
           onClick={() => onChangeView('trainers')}
         >
-          🧑‍🚀 Treinadores
+          <TrainerIcon />
+          Treinadores
         </button>
         {detailsLabel && (
           <button className={navClass('details')} aria-current="page">

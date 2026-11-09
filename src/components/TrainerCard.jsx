@@ -2,15 +2,34 @@ import { useState } from 'react';
 import { getPokemonSprite, getTrainerImage } from '../utils/pokemonHelpers';
 
 // Avatar do treinador: mostra o sprite do Pokémon Showdown e, se a imagem
-// falhar, recai para um emoji.
+// falhar, recai para um ícone de pessoa.
 function TrainerAvatar({ trainer }) {
   const [imgError, setImgError] = useState(false);
   const src = getTrainerImage(trainer.id);
 
   if (!src || imgError) {
     return (
-      <div className="grid size-14 place-items-center rounded-full bg-linear-135 from-accent to-accent-2 text-2xl">
-        🧑‍🚀
+      <div className="grid size-14 place-items-center rounded-full bg-linear-135 from-accent to-accent-2 text-white">
+        <svg
+          className="size-7"
+          viewBox="0 0 24 24"
+          fill="none"
+          aria-hidden="true"
+        >
+          <circle
+            cx="12"
+            cy="8"
+            r="3.5"
+            stroke="currentColor"
+            strokeWidth="2"
+          />
+          <path
+            d="M5 20c0-3.3 3.1-6 7-6s7 2.7 7 6"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+          />
+        </svg>
       </div>
     );
   }
