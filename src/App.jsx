@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import Header from './components/Header'
 import SearchBar from './components/SearchBar'
+import TypeFilter from './components/TypeFilter'
 import PokemonList from './components/PokemonList'
 import pokedexData from './data/pokedex-data.json'
 import './css/App.css'
@@ -8,6 +9,16 @@ import './css/App.css'
 function App() {
   // Dados brutos vindos do arquivo JSON.
   const allPokemon = pokedexData.pokemon
+
+  // Tipos disponíveis para o filtro: apenas os que realmente aparecem nos
+  // Pokémon, ordenados alfabeticamente (ignora "Typeless").
+  const usedTypeNames = new Set()
+  allPokemon.forEach((pokemon) =>
+    pokemon.types.forEach((type) => usedTypeNames.add(type.name))
+  )
+  const availableTypes = pokedexData.types
+    .filter((type) => usedTypeNames.has(type.name))
+    .sort((a, b) => a.name.localeCompare(b.name))
 
   // Seção ativa: 'pokedex' ou 'trainers'.
   const [view, setView] = useState('pokedex')
@@ -21,9 +32,19 @@ function App() {
   // Texto digitado no campo de pesquisa.
   const [search, setSearch] = useState('')
 
-  // Lista derivada: aplica a pesquisa por nome ou ID sobre os dados brutos.
+  // Tipo selecionado no filtro ('all' = todos).
+  const [selectedType, setSelectedType] = useState('all')
+
+  // Lista derivada: aplica pesquisa (nome/ID) e filtro por tipo.
   const term = search.trim().toLowerCase()
   const filteredPokemon = allPokemon.filter((pokemon) => {
+    // Filtro por tipo
+    const matchesType =
+      selectedType === 'all' ||
+      pokemon.types.some((type) => type.name === selectedType)
+    if (!matchesType) return false
+
+    // Pesquisa por nome ou ID
     if (!term) return true
     const matchesName = pokemon.name.toLowerCase().includes(term)
     const matchesId =
@@ -67,6 +88,11 @@ function App() {
             value={search}
             onChange={setSearch}
             resultCount={filteredPokemon.length}
+          />
+          <TypeFilter
+            types={availableTypes}
+            selectedType={selectedType}
+            onSelectType={setSelectedType}
           />
         </div>
 
