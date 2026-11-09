@@ -4,12 +4,59 @@ import {
   getPokemonImage,
   getPokemonSprite,
   getStatTotal,
+  getTrainerImage,
   getTypeColor,
   STAT_LABELS,
 } from '../utils/pokemonHelpers';
 import EvolutionTree from './EvolutionTree';
 import StatBar from './StatBar';
 import TypeBadge from './TypeBadge';
+
+// Chip de um treinador que possui o Pokémon: imagem (sprite) + nome + insígnias.
+// Recai para um ícone de pessoa caso a imagem não carregue.
+function TrainerChip({ trainer }) {
+  const [imgError, setImgError] = useState(false);
+  const src = getTrainerImage(trainer.id);
+
+  return (
+    <li className="flex items-center gap-2 rounded-xl border border-line bg-surface-2 px-3 py-2 text-[0.9rem] font-semibold">
+      <span className="grid size-7 shrink-0 place-items-center overflow-hidden rounded-full bg-linear-135 from-accent to-accent-2 text-white">
+        {src && !imgError ? (
+          <img
+            className="size-full object-contain [image-rendering:pixelated]"
+            src={src}
+            alt={trainer.name}
+            loading="lazy"
+            onError={() => setImgError(true)}
+          />
+        ) : (
+          <svg
+            className="size-4"
+            viewBox="0 0 24 24"
+            fill="none"
+            aria-hidden="true"
+          >
+            <circle
+              cx="12"
+              cy="8"
+              r="3.5"
+              stroke="currentColor"
+              strokeWidth="2"
+            />
+            <path
+              d="M5 20c0-3.3 3.1-6 7-6s7 2.7 7 6"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+            />
+          </svg>
+        )}
+      </span>
+      {trainer.name}
+      <span className="text-[0.78rem] text-muted">{trainer.badges} 🏅</span>
+    </li>
+  );
+}
 
 const SECTION_TITLE =
   'mb-3.5 text-[0.9rem] font-bold tracking-[0.6px] text-muted uppercase';
@@ -73,8 +120,9 @@ function PokemonDetails({
           }}
         >
           <button
-            className={`absolute top-4 right-4 grid size-10 place-items-center rounded-full bg-white/25 text-xl transition duration-150 hover:scale-110 hover:bg-white/40 ${isFavorite ? 'text-[#ffe066]' : 'text-white'
-              }`}
+            className={`absolute top-4 right-4 grid size-10 place-items-center rounded-full bg-white/25 text-xl transition duration-150 hover:scale-110 hover:bg-white/40 ${
+              isFavorite ? 'text-[#ffe066]' : 'text-white'
+            }`}
             onClick={() => onToggleFavorite(pokemon.id)}
             aria-label="Favoritar"
             title={
@@ -135,15 +183,7 @@ function PokemonDetails({
           {trainers.length > 0 ? (
             <ul className="flex flex-wrap gap-2">
               {trainers.map((trainer) => (
-                <li
-                  key={trainer.id}
-                  className="flex items-center gap-2 rounded-xl border border-line bg-surface-2 px-3 py-2 text-[0.9rem] font-semibold"
-                >
-                  🧑‍🚀 {trainer.name}
-                  <span className="text-[0.78rem] text-muted">
-                    {trainer.badges} 🏅
-                  </span>
-                </li>
+                <TrainerChip key={trainer.id} trainer={trainer} />
               ))}
             </ul>
           ) : (
