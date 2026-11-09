@@ -3,12 +3,14 @@ import Header from './components/Header'
 import SearchBar from './components/SearchBar'
 import TypeFilter from './components/TypeFilter'
 import PokemonList from './components/PokemonList'
+import PokemonDetails from './components/PokemonDetails'
 import pokedexData from './data/pokedex-data.json'
 import './css/App.css'
 
 function App() {
   // Dados brutos vindos do arquivo JSON.
   const allPokemon = pokedexData.pokemon
+  const allTrainers = pokedexData.trainers
 
   // Tipos disponíveis para o filtro: apenas os que realmente aparecem nos
   // Pokémon, ordenados alfabeticamente (ignora "Typeless").
@@ -34,6 +36,9 @@ function App() {
 
   // Tipo selecionado no filtro ('all' = todos).
   const [selectedType, setSelectedType] = useState('all')
+
+  // Pokémon selecionado para exibição no modal de detalhes (null = fechado).
+  const [selectedPokemon, setSelectedPokemon] = useState(null)
 
   // Lista derivada: aplica pesquisa (nome/ID) e filtro por tipo.
   const term = search.trim().toLowerCase()
@@ -69,9 +74,15 @@ function App() {
   }
 
   function handleSelectPokemon(pokemon) {
-    // Será expandido para abrir o modal de detalhes.
-    console.log('Pokémon selecionado:', pokemon.name)
+    setSelectedPokemon(pokemon)
   }
+
+  // Treinadores que possuem o Pokémon atualmente selecionado.
+  const trainersOfSelected = selectedPokemon
+    ? allTrainers.filter((trainer) =>
+        trainer.pokemonIds.includes(selectedPokemon.id)
+      )
+    : []
 
   return (
     <div className="app">
@@ -103,6 +114,16 @@ function App() {
           onToggleFavorite={toggleFavorite}
         />
       </main>
+
+      {selectedPokemon && (
+        <PokemonDetails
+          pokemon={selectedPokemon}
+          trainers={trainersOfSelected}
+          onClose={() => setSelectedPokemon(null)}
+          isFavorite={favorites.includes(selectedPokemon.id)}
+          onToggleFavorite={toggleFavorite}
+        />
+      )}
 
       <footer className="app__footer">
         <p>
