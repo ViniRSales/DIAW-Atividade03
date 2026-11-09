@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import Header from './components/Header';
 import SearchBar from './components/SearchBar';
 import TypeFilter from './components/TypeFilter';
@@ -93,7 +93,7 @@ function App() {
   function handleRandom() {
     const pool = sortedPokemon.length > 0 ? sortedPokemon : allPokemon;
     const randomPokemon = pool[Math.floor(Math.random() * pool.length)];
-    setSelectedPokemon(randomPokemon);
+    handleSelectPokemon(randomPokemon);
   }
 
   // Aplica o tema ao elemento raiz do documento.
@@ -111,15 +111,37 @@ function App() {
     );
   }
 
+  // Posição de rolagem da lista, guardada ao abrir um Pokémon para ser
+  // restaurada quando o usuário voltar.
+  const savedScroll = useRef(null);
+
   function handleSelectPokemon(pokemon) {
+    // Só guarda quando se vem da lista/treinadores; navegar entre evoluções
+    // (já dentro dos detalhes) não sobrescreve a posição original.
+    if (!selectedPokemon) savedScroll.current = window.scrollY;
     setSelectedPokemon(pokemon);
   }
 
-  // Trocar de seção pelo cabeçalho fecha a aba de detalhes.
+  // Botão Voltar: fecha os detalhes e restaura a rolagem.
+  function handleBack() {
+    setSelectedPokemon(null);
+  }
+
+  // Trocar de seção pelo cabeçalho fecha a aba de detalhes, sem restaurar
+  // a rolagem (é outra tela).
   function handleChangeView(nextView) {
+    savedScroll.current = null;
     setSelectedPokemon(null);
     setView(nextView);
   }
+
+  // Após voltar para a lista, devolve a página à posição anterior.
+  useLayoutEffect(() => {
+    if (!selectedPokemon && savedScroll.current !== null) {
+      window.scrollTo({ top: savedScroll.current });
+      savedScroll.current = null;
+    }
+  }, [selectedPokemon]);
 
   // Treinadores que possuem o Pokémon atualmente selecionado.
   const trainersOfSelected = selectedPokemon
@@ -148,7 +170,7 @@ function App() {
             pokemon={selectedPokemon}
             pokemonById={pokemonById}
             trainers={trainersOfSelected}
-            onBack={() => setSelectedPokemon(null)}
+            onBack={handleBack}
             onSelectPokemon={handleSelectPokemon}
             isFavorite={favorites.includes(selectedPokemon.id)}
             onToggleFavorite={toggleFavorite}
