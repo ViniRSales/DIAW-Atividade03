@@ -1,4 +1,5 @@
 // Funções auxiliares usadas em vários componentes da Pokédex.
+import { EVOLUTION_EDGES } from '../data/evolutions';
 
 // Cores associadas a cada tipo de Pokémon (usadas em badges, cards e barras).
 export const TYPE_COLORS = {
@@ -59,4 +60,32 @@ export const MAX_STAT = 255;
 // Soma total dos atributos base de um Pokémon.
 export function getStatTotal(stats) {
   return Object.values(stats).reduce((total, value) => total + value, 0);
+}
+
+// ---- Evolução ----
+
+// Índices construídos uma única vez a partir de EVOLUTION_EDGES.
+const parentOf = {};
+const childrenOf = {};
+EVOLUTION_EDGES.forEach(([from, to, how]) => {
+  parentOf[to] = from;
+  (childrenOf[from] ||= []).push({ to, how });
+});
+
+function buildEvolutionNode(id, how = null) {
+  return {
+    id,
+    how,
+    children: (childrenOf[id] || []).map((edge) =>
+      buildEvolutionNode(edge.to, edge.how),
+    ),
+  };
+}
+
+// Retorna a árvore evolutiva completa (a partir da forma inicial) da família
+// do Pokémon informado: { id, how, children: [...] }.
+export function getEvolutionTree(id) {
+  let root = id;
+  while (parentOf[root]) root = parentOf[root];
+  return buildEvolutionNode(root);
 }

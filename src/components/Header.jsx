@@ -2,7 +2,13 @@ const NAV_BTN =
   'rounded-full border border-transparent px-4 py-[9px] text-[0.9rem] font-bold transition duration-200 hover:-translate-y-0.5';
 
 // Cabeçalho da aplicação, com título, navegação entre seções e troca de tema.
-function Header({ activeView, onChangeView, theme, onToggleTheme }) {
+function Header({
+  activeView,
+  onChangeView,
+  detailsLabel,
+  theme,
+  onToggleTheme,
+}) {
   const navClass = (view) =>
     `${NAV_BTN} ${
       activeView === view
@@ -40,6 +46,11 @@ function Header({ activeView, onChangeView, theme, onToggleTheme }) {
         >
           🧑‍🚀 Treinadores
         </button>
+        {detailsLabel && (
+          <button className={navClass('details')} aria-current="page">
+            {detailsLabel}
+          </button>
+        )}
       </nav>
 
       <button

@@ -6,7 +6,7 @@ import PokemonList from './components/PokemonList';
 import PokemonDetails from './components/PokemonDetails';
 import TrainerList from './components/TrainerList';
 import Controls from './components/Controls';
-import { getStatTotal } from './utils/pokemonHelpers';
+import { formatPokedexNumber, getStatTotal } from './utils/pokemonHelpers';
 import pokedexData from './data/pokedex-data.json';
 
 function App() {
@@ -115,6 +115,12 @@ function App() {
     setSelectedPokemon(pokemon);
   }
 
+  // Trocar de seção pelo cabeçalho fecha a aba de detalhes.
+  function handleChangeView(nextView) {
+    setSelectedPokemon(null);
+    setView(nextView);
+  }
+
   // Treinadores que possuem o Pokémon atualmente selecionado.
   const trainersOfSelected = selectedPokemon
     ? allTrainers.filter((trainer) =>
@@ -125,14 +131,29 @@ function App() {
   return (
     <div className="flex min-h-screen flex-col">
       <Header
-        activeView={view}
-        onChangeView={setView}
+        activeView={selectedPokemon ? 'details' : view}
+        onChangeView={handleChangeView}
+        detailsLabel={
+          selectedPokemon
+            ? `${formatPokedexNumber(selectedPokemon.id)} ${selectedPokemon.name}`
+            : null
+        }
         theme={theme}
         onToggleTheme={toggleTheme}
       />
 
       <main className="mx-auto w-full max-w-[1200px] flex-1 px-5 pt-6 pb-12">
-        {view === 'pokedex' ? (
+        {selectedPokemon ? (
+          <PokemonDetails
+            pokemon={selectedPokemon}
+            pokemonById={pokemonById}
+            trainers={trainersOfSelected}
+            onBack={() => setSelectedPokemon(null)}
+            onSelectPokemon={handleSelectPokemon}
+            isFavorite={favorites.includes(selectedPokemon.id)}
+            onToggleFavorite={toggleFavorite}
+          />
+        ) : view === 'pokedex' ? (
           <>
             <div className="mb-6 flex flex-col gap-3.5">
               <SearchBar
@@ -174,16 +195,6 @@ function App() {
           />
         )}
       </main>
-
-      {selectedPokemon && (
-        <PokemonDetails
-          pokemon={selectedPokemon}
-          trainers={trainersOfSelected}
-          onClose={() => setSelectedPokemon(null)}
-          isFavorite={favorites.includes(selectedPokemon.id)}
-          onToggleFavorite={toggleFavorite}
-        />
-      )}
 
       <footer className="border-t border-line p-5 text-center text-[0.82rem] text-muted">
         <p>
