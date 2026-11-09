@@ -1,0 +1,28 @@
+.app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.app__main {
+  flex: 1;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px 20px 48px;
+}
+
+.app__footer {
+  text-align: center;
+  padding: 20px;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  border-top: 1px solid var(--border);
+}
+
+.app__footer code {
+  background: var(--surface-2);
+  padding: 2px 6px;
+  border-radius: 6px;
+  font-size: 0.78rem;
+}
