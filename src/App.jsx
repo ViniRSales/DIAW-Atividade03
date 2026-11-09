@@ -4,6 +4,7 @@ import SearchBar from './components/SearchBar'
 import TypeFilter from './components/TypeFilter'
 import PokemonList from './components/PokemonList'
 import PokemonDetails from './components/PokemonDetails'
+import TrainerList from './components/TrainerList'
 import pokedexData from './data/pokedex-data.json'
 import './css/App.css'
 
@@ -11,6 +12,12 @@ function App() {
   // Dados brutos vindos do arquivo JSON.
   const allPokemon = pokedexData.pokemon
   const allTrainers = pokedexData.trainers
+
+  // Índice id -> Pokémon, usado para resolver os Pokémon dos treinadores.
+  const pokemonById = {}
+  allPokemon.forEach((pokemon) => {
+    pokemonById[pokemon.id] = pokemon
+  })
 
   // Tipos disponíveis para o filtro: apenas os que realmente aparecem nos
   // Pokémon, ordenados alfabeticamente (ignora "Typeless").
@@ -94,25 +101,35 @@ function App() {
       />
 
       <main className="app__main">
-        <div className="app__toolbar">
-          <SearchBar
-            value={search}
-            onChange={setSearch}
-            resultCount={filteredPokemon.length}
-          />
-          <TypeFilter
-            types={availableTypes}
-            selectedType={selectedType}
-            onSelectType={setSelectedType}
-          />
-        </div>
+        {view === 'pokedex' ? (
+          <>
+            <div className="app__toolbar">
+              <SearchBar
+                value={search}
+                onChange={setSearch}
+                resultCount={filteredPokemon.length}
+              />
+              <TypeFilter
+                types={availableTypes}
+                selectedType={selectedType}
+                onSelectType={setSelectedType}
+              />
+            </div>
 
-        <PokemonList
-          pokemonList={filteredPokemon}
-          onSelect={handleSelectPokemon}
-          favorites={favorites}
-          onToggleFavorite={toggleFavorite}
-        />
+            <PokemonList
+              pokemonList={filteredPokemon}
+              onSelect={handleSelectPokemon}
+              favorites={favorites}
+              onToggleFavorite={toggleFavorite}
+            />
+          </>
+        ) : (
+          <TrainerList
+            trainers={allTrainers}
+            pokemonById={pokemonById}
+            onSelectPokemon={handleSelectPokemon}
+          />
+        )}
       </main>
 
       {selectedPokemon && (
