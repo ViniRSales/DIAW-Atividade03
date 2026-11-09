@@ -31,18 +31,32 @@ function Controls({
         <label className="text-[0.82rem] font-bold text-muted" htmlFor="sort">
           Ordenar por
         </label>
-        <select
-          id="sort"
-          className="cursor-pointer rounded-[10px] border border-line bg-surface px-3 py-2 text-[0.9rem] font-semibold text-fg focus-visible:outline-2 focus-visible:outline-accent-2"
-          value={sortBy}
-          onChange={(e) => onSortBy(e.target.value)}
-        >
-          {SORT_OPTIONS.map((option) => (
-            <option key={option.value} value={option.value}>
-              {option.label}
-            </option>
-          ))}
-        </select>
+        <div className="relative">
+          <select
+            id="sort"
+            className="cursor-pointer appearance-none rounded-[10px] border border-line bg-surface py-2 pr-10 pl-3 text-[0.9rem] font-semibold text-fg focus-visible:outline-2 focus-visible:outline-accent-2"
+            value={sortBy}
+            onChange={(e) => onSortBy(e.target.value)}
+          >
+            {SORT_OPTIONS.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </select>
+          <svg
+            className="pointer-events-none absolute top-1/2 right-4 size-3 -translate-y-1/2 text-muted"
+            viewBox="0 0 12 12"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M2 4l4 4 4-4" />
+          </svg>
+        </div>
         <button
           className="size-[38px] rounded-[10px] border border-line bg-surface text-[1.1rem] font-extrabold transition-transform duration-150 hover:-translate-y-0.5"
           onClick={onToggleDir}
@@ -55,11 +69,10 @@ function Controls({
 
       <div className="ml-auto flex items-center gap-2 max-[600px]:ml-0">
         <button
-          className={`${PILL} ${
-            onlyFavorites
+          className={`${PILL} ${onlyFavorites
               ? 'border-star bg-star text-[#1b1d29]'
               : 'border-line bg-surface'
-          }`}
+            }`}
           onClick={onToggleFavorites}
         >
           ★ Favoritos ({favoritesCount})
