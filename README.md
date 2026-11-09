@@ -171,6 +171,17 @@ usando o número de cada Pokémon:
 
 ---
 
+## 🧬 Ícones de tipo
+
+Os ícones ("New Symbol") exibidos ao lado dos tipos (nos cards, no filtro e nos
+detalhes) são imagens locais, armazenadas em `src/assets/type-symbols/`. Por
+serem locais, aparecem mesmo sem acesso à internet.
+
+**Fonte dos ícones:** [terastal.net — Type Symbols](https://terastal.net/type-symbols)
+(coluna "New Symbol").
+
+---
+
 ## 🛠️ Tecnologias
 
 - [React 18](https://react.dev/)

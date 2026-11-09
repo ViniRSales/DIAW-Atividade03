@@ -28,34 +28,42 @@ export function getTypeColor(typeName) {
   return TYPE_COLORS[typeName] || '#777';
 }
 
-// IDs de cada tipo na PokéAPI (usados para montar a URL do ícone).
-export const TYPE_IDS = {
-  Normal: 1,
-  Fighting: 2,
-  Flying: 3,
-  Poison: 4,
-  Ground: 5,
-  Rock: 6,
-  Bug: 7,
-  Ghost: 8,
-  Steel: 9,
-  Fire: 10,
-  Water: 11,
-  Grass: 12,
-  Electric: 13,
-  Psychic: 14,
-  Ice: 15,
-  Dragon: 16,
-  Dark: 17,
-  Fairy: 18,
+// Ícones locais dos tipos ("New Symbol"). O Vite resolve a URL final de cada
+// arquivo em tempo de build. Chave: nome do arquivo (ex.: "fire.png").
+const TYPE_ICON_MODULES = import.meta.glob('../assets/type-symbols/*.png', {
+  eager: true,
+  import: 'default',
+});
+
+// Mapa nome do tipo (como vem no JSON) -> arquivo do ícone.
+const TYPE_ICON_FILES = {
+  Normal: 'normal.png',
+  Fighting: 'fighting.png',
+  Flying: 'flying.png',
+  Poison: 'poison.png',
+  Ground: 'ground.png',
+  Rock: 'rock.png',
+  Bug: 'bug.png',
+  Ghost: 'ghost.png',
+  Steel: 'steel.png',
+  Fire: 'fire.png',
+  Water: 'water.png',
+  Grass: 'grass.png',
+  Electric: 'electric.png',
+  Psychic: 'psychic.png',
+  Ice: 'ice.png',
+  Dragon: 'dragon.png',
+  Dark: 'dark.png',
+  Fairy: 'fairy.png',
 };
 
-// URL do ícone (símbolo "novo") de um tipo, a partir da PokéAPI.
-// Fonte: PokéAPI sprites — types/generation-ix/scarlet-violet.
+// Retorna a URL do ícone ("New Symbol") de um tipo, ou null se não houver.
+// Fonte dos ícones: terastal.net (coluna "New Symbol"), salvos em
+// src/assets/type-symbols.
 export function getTypeIcon(typeName) {
-  const id = TYPE_IDS[typeName];
-  if (!id) return null;
-  return `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/types/generation-ix/scarlet-violet/${id}.png`;
+  const file = TYPE_ICON_FILES[typeName];
+  if (!file) return null;
+  return TYPE_ICON_MODULES[`../assets/type-symbols/${file}`] || null;
 }
 
 // Monta a URL da imagem (sprite oficial) do Pokémon a partir do ID.
