@@ -5,6 +5,8 @@ import TypeFilter from './components/TypeFilter'
 import PokemonList from './components/PokemonList'
 import PokemonDetails from './components/PokemonDetails'
 import TrainerList from './components/TrainerList'
+import Controls from './components/Controls'
+import { getStatTotal } from './utils/pokemonHelpers'
 import pokedexData from './data/pokedex-data.json'
 import './css/App.css'
 
@@ -47,9 +49,17 @@ function App() {
   // Pokémon selecionado para exibição no modal de detalhes (null = fechado).
   const [selectedPokemon, setSelectedPokemon] = useState(null)
 
-  // Lista derivada: aplica pesquisa (nome/ID) e filtro por tipo.
+  // Ordenação: critério, direção e flag "apenas favoritos".
+  const [sortBy, setSortBy] = useState('id')
+  const [sortDir, setSortDir] = useState('asc')
+  const [onlyFavorites, setOnlyFavorites] = useState(false)
+
+  // Lista derivada: aplica pesquisa (nome/ID), filtro por tipo e favoritos.
   const term = search.trim().toLowerCase()
   const filteredPokemon = allPokemon.filter((pokemon) => {
+    // Filtro "apenas favoritos"
+    if (onlyFavorites && !favorites.includes(pokemon.id)) return false
+
     // Filtro por tipo
     const matchesType =
       selectedType === 'all' ||
@@ -64,6 +74,28 @@ function App() {
       String(pokemon.id).padStart(3, '0') === term.replace('#', '')
     return matchesName || matchesId
   })
+
+  // Ordena a lista filtrada conforme critério e direção escolhidos.
+  const sortedPokemon = [...filteredPokemon].sort((a, b) => {
+    let comparison
+    if (sortBy === 'name') {
+      comparison = a.name.localeCompare(b.name)
+    } else if (sortBy === 'id') {
+      comparison = a.id - b.id
+    } else if (sortBy === 'total') {
+      comparison = getStatTotal(a.stats) - getStatTotal(b.stats)
+    } else {
+      comparison = a.stats[sortBy] - b.stats[sortBy]
+    }
+    return sortDir === 'asc' ? comparison : -comparison
+  })
+
+  // Abre um Pokémon aleatório (respeitando os filtros atuais, se houver).
+  function handleRandom() {
+    const pool = sortedPokemon.length > 0 ? sortedPokemon : allPokemon
+    const randomPokemon = pool[Math.floor(Math.random() * pool.length)]
+    setSelectedPokemon(randomPokemon)
+  }
 
   // Aplica o tema ao elemento raiz do documento.
   useEffect(() => {
@@ -114,10 +146,22 @@ function App() {
                 selectedType={selectedType}
                 onSelectType={setSelectedType}
               />
+              <Controls
+                sortBy={sortBy}
+                onSortBy={setSortBy}
+                sortDir={sortDir}
+                onToggleDir={() =>
+                  setSortDir((prev) => (prev === 'asc' ? 'desc' : 'asc'))
+                }
+                onlyFavorites={onlyFavorites}
+                onToggleFavorites={() => setOnlyFavorites((prev) => !prev)}
+                favoritesCount={favorites.length}
+                onRandom={handleRandom}
+              />
             </div>
 
             <PokemonList
-              pokemonList={filteredPokemon}
+              pokemonList={sortedPokemon}
               onSelect={handleSelectPokemon}
               favorites={favorites}
               onToggleFavorite={toggleFavorite}
