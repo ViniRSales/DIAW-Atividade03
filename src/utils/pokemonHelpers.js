@@ -77,6 +77,31 @@ export function getPokemonSprite(id) {
   return `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`;
 }
 
+// Nome do sprite de cada treinador no Pokémon Showdown, por ID do treinador.
+// Prioriza os sprites da 1ª geração (-gen1) para combinar com a Pokédex de Kanto.
+const TRAINER_SPRITES = {
+  1: 'ash', // Ash
+  2: 'brock-gen1', // Brock
+  3: 'misty-gen1', // Misty
+  4: 'ltsurge', // Lt. Surge
+  5: 'erika-gen1', // Erika
+  6: 'koga-gen1', // Koga
+  7: 'sabrina-gen1', // Sabrina
+  8: 'blaine-gen1', // Blaine
+  9: 'giovanni-gen1', // Giovanni
+  10: 'blue-gen1', // Gary (rival, conhecido como Blue)
+  11: 'teamrocket', // Team Rocket
+  12: 'lance-gen1', // Lance
+};
+
+// URL da imagem de um treinador (sprites do Pokémon Showdown).
+// Fonte: https://play.pokemonshowdown.com/sprites/trainers
+export function getTrainerImage(trainerId) {
+  const name = TRAINER_SPRITES[trainerId];
+  if (!name) return null;
+  return `https://play.pokemonshowdown.com/sprites/trainers/${name}.png`;
+}
+
 // Formata o ID no padrão da Pokédex: 1 -> "#001".
 export function formatPokedexNumber(id) {
   return `#${String(id).padStart(3, '0')}`;

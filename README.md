@@ -182,6 +182,16 @@ serem locais, aparecem mesmo sem acesso à internet.
 
 ---
 
+## 🧑‍🚀 Imagens dos treinadores
+
+Cada treinador exibe sua imagem (sprite) carregada a partir do **Pokémon
+Showdown**, priorizando os sprites da 1ª geração para combinar com a Pokédex de
+Kanto. Se a imagem não carregar, o card recai para um ícone padrão.
+
+**Fonte dos sprites:** [Pokémon Showdown — Trainer sprites](https://play.pokemonshowdown.com/sprites/trainers/)
+
+---
+
 ## 🛠️ Tecnologias
 
 - [React 18](https://react.dev/)

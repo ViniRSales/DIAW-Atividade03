@@ -1,5 +1,32 @@
 import { useState } from 'react';
-import { getPokemonSprite } from '../utils/pokemonHelpers';
+import { getPokemonSprite, getTrainerImage } from '../utils/pokemonHelpers';
+
+// Avatar do treinador: mostra o sprite do Pokémon Showdown e, se a imagem
+// falhar, recai para um emoji.
+function TrainerAvatar({ trainer }) {
+  const [imgError, setImgError] = useState(false);
+  const src = getTrainerImage(trainer.id);
+
+  if (!src || imgError) {
+    return (
+      <div className="grid size-14 place-items-center rounded-full bg-linear-135 from-accent to-accent-2 text-2xl">
+        🧑‍🚀
+      </div>
+    );
+  }
+
+  return (
+    <div className="grid size-14 place-items-center overflow-hidden rounded-full bg-linear-135 from-accent to-accent-2">
+      <img
+        className="size-full object-contain [image-rendering:pixelated]"
+        src={src}
+        alt={trainer.name}
+        loading="lazy"
+        onError={() => setImgError(true)}
+      />
+    </div>
+  );
+}
 
 // Miniatura de um Pokémon dentro do card de treinador.
 function MiniPokemon({ pokemon, onSelect }) {
@@ -39,9 +66,7 @@ function TrainerCard({ trainer, pokemonById, onSelectPokemon }) {
   return (
     <article className="rounded-[18px] border border-line bg-surface p-[18px] shadow-card transition duration-200 hover:-translate-y-1 hover:shadow-card-hover">
       <header className="mb-4 flex items-center gap-3">
-        <div className="grid size-12 place-items-center rounded-full bg-linear-135 from-accent to-accent-2 text-2xl">
-          🧑‍🚀
-        </div>
+        <TrainerAvatar trainer={trainer} />
         <div>
           <h3 className="text-[1.2rem] font-extrabold">{trainer.name}</h3>
           <p className="text-[0.85rem] font-semibold text-muted">
