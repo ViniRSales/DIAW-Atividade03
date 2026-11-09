@@ -12,6 +12,13 @@
   padding: 24px 20px 48px;
 }
 
+.app__toolbar {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-bottom: 24px;
+}
+
 .app__footer {
   text-align: center;
   padding: 20px;

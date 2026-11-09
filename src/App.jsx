@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import Header from './components/Header'
+import SearchBar from './components/SearchBar'
 import PokemonList from './components/PokemonList'
 import pokedexData from './data/pokedex-data.json'
 import './css/App.css'
@@ -16,6 +17,20 @@ function App() {
 
   // Favoritos (lista de IDs).
   const [favorites, setFavorites] = useState([])
+
+  // Texto digitado no campo de pesquisa.
+  const [search, setSearch] = useState('')
+
+  // Lista derivada: aplica a pesquisa por nome ou ID sobre os dados brutos.
+  const term = search.trim().toLowerCase()
+  const filteredPokemon = allPokemon.filter((pokemon) => {
+    if (!term) return true
+    const matchesName = pokemon.name.toLowerCase().includes(term)
+    const matchesId =
+      String(pokemon.id) === term ||
+      String(pokemon.id).padStart(3, '0') === term.replace('#', '')
+    return matchesName || matchesId
+  })
 
   // Aplica o tema ao elemento raiz do documento.
   useEffect(() => {
@@ -47,8 +62,16 @@ function App() {
       />
 
       <main className="app__main">
+        <div className="app__toolbar">
+          <SearchBar
+            value={search}
+            onChange={setSearch}
+            resultCount={filteredPokemon.length}
+          />
+        </div>
+
         <PokemonList
-          pokemonList={allPokemon}
+          pokemonList={filteredPokemon}
           onSelect={handleSelectPokemon}
           favorites={favorites}
           onToggleFavorite={toggleFavorite}
