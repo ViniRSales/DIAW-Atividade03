@@ -8,7 +8,6 @@ import TrainerList from './components/TrainerList';
 import Controls from './components/Controls';
 import { getStatTotal } from './utils/pokemonHelpers';
 import pokedexData from './data/pokedex-data.json';
-import './css/App.css';
 
 function App() {
   // Dados brutos vindos do arquivo JSON.
@@ -124,7 +123,7 @@ function App() {
     : [];
 
   return (
-    <div className="app">
+    <div className="flex min-h-screen flex-col">
       <Header
         activeView={view}
         onChangeView={setView}
@@ -132,10 +131,10 @@ function App() {
         onToggleTheme={toggleTheme}
       />
 
-      <main className="app__main">
+      <main className="mx-auto w-full max-w-[1200px] flex-1 px-5 pt-6 pb-12">
         {view === 'pokedex' ? (
           <>
-            <div className="app__toolbar">
+            <div className="mb-6 flex flex-col gap-3.5">
               <SearchBar
                 value={search}
                 onChange={setSearch}
@@ -186,9 +185,13 @@ function App() {
         />
       )}
 
-      <footer className="app__footer">
+      <footer className="border-t border-line p-5 text-center text-[0.82rem] text-muted">
         <p>
-          Dados: <code>src/data/pokedex-data.json</code> · Imagens:{' '}
+          Dados:{' '}
+          <code className="rounded-md bg-surface-2 px-1.5 py-0.5 text-[0.78rem]">
+            src/data/pokedex-data.json
+          </code>{' '}
+          · Imagens:{' '}
           <a href="https://pokeapi.co/" target="_blank" rel="noreferrer">
             PokéAPI
           </a>

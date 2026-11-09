@@ -1,0 +1,15 @@
+/* Tema claro (padrão). Define apenas os valores das variáveis de tema. */
+:root {
+  --bg: #f1f3f8;
+  --bg-gradient: linear-gradient(160deg, #e8edff 0%, #f6e7ff 100%);
+  --surface: #ffffff;
+  --surface-2: #f7f8fc;
+  --text: #1b1d29;
+  --text-muted: #6b7084;
+  --border: #e3e6ef;
+  --shadow: 0 8px 24px rgba(31, 38, 82, 0.08);
+  --shadow-hover: 0 14px 34px rgba(31, 38, 82, 0.18);
+  --accent: #ef4444;
+  --accent-2: #3b5bdb;
+  --track: #e9ecf5;
+}

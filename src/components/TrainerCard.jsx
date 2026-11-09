@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { getPokemonSprite } from '../utils/pokemonHelpers';
-import '../css/TrainerCard.css';
 
 // Miniatura de um Pokémon dentro do card de treinador.
 function MiniPokemon({ pokemon, onSelect }) {
@@ -8,11 +7,12 @@ function MiniPokemon({ pokemon, onSelect }) {
 
   return (
     <button
-      className="trainer-card__pokemon"
+      className="flex flex-col items-center gap-0.5 rounded-xl bg-surface-2 px-1 py-1.5 transition duration-150 hover:-translate-y-[3px] hover:scale-105 hover:bg-[color-mix(in_srgb,var(--accent-2)_15%,var(--surface-2))]"
       onClick={() => onSelect(pokemon)}
       title={pokemon.name}
     >
       <img
+        className="size-12 object-contain [image-rendering:pixelated]"
         src={getPokemonSprite(pokemon.id)}
         alt={pokemon.name}
         loading="lazy"
@@ -23,7 +23,9 @@ function MiniPokemon({ pokemon, onSelect }) {
           }
         }}
       />
-      <span>{pokemon.name}</span>
+      <span className="max-w-full truncate text-center text-[0.62rem] font-semibold text-muted">
+        {pokemon.name}
+      </span>
     </button>
   );
 }
@@ -35,20 +37,24 @@ function TrainerCard({ trainer, pokemonById, onSelectPokemon }) {
   const pokemons = uniqueIds.map((id) => pokemonById[id]).filter(Boolean);
 
   return (
-    <article className="trainer-card">
-      <header className="trainer-card__header">
-        <div className="trainer-card__avatar">🧑‍🚀</div>
+    <article className="rounded-[18px] border border-line bg-surface p-[18px] shadow-card transition duration-200 hover:-translate-y-1 hover:shadow-card-hover">
+      <header className="mb-4 flex items-center gap-3">
+        <div className="grid size-12 place-items-center rounded-full bg-linear-135 from-accent to-accent-2 text-2xl">
+          🧑‍🚀
+        </div>
         <div>
-          <h3 className="trainer-card__name">{trainer.name}</h3>
-          <p className="trainer-card__badges">
+          <h3 className="text-[1.2rem] font-extrabold">{trainer.name}</h3>
+          <p className="text-[0.85rem] font-semibold text-muted">
             🏅 {trainer.badges}{' '}
             {trainer.badges === 1 ? 'insígnia' : 'insígnias'}
           </p>
         </div>
-        <span className="trainer-card__count">{pokemons.length} 🐾</span>
+        <span className="ml-auto rounded-full bg-surface-2 px-2.5 py-1 text-[0.9rem] font-extrabold text-muted">
+          {pokemons.length} 🐾
+        </span>
       </header>
 
-      <div className="trainer-card__pokemons">
+      <div className="grid grid-cols-[repeat(auto-fill,minmax(70px,1fr))] gap-2">
         {pokemons.length > 0 ? (
           pokemons.map((pokemon) => (
             <MiniPokemon
@@ -58,7 +64,7 @@ function TrainerCard({ trainer, pokemonById, onSelectPokemon }) {
             />
           ))
         ) : (
-          <p className="trainer-card__empty">Sem Pokémon registrados.</p>
+          <p className="text-[0.85rem] text-muted">Sem Pokémon registrados.</p>
         )}
       </div>
     </article>

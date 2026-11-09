@@ -1,0 +1,79 @@
+/*
+ * Tokens do Tailwind.
+ * Mapeiam as variáveis dos temas (themes/light.css e themes/dark.css) para
+ * utilitários (bg-surface, text-muted, border-line, shadow-card...).
+ * `inline` faz o Tailwind referenciar a variável do tema em vez de copiar o
+ * valor, então trocar o tema atualiza tudo sem precisar do prefixo `dark:`.
+ */
+@theme inline {
+  --font-sans:
+    'Segoe UI', system-ui, -apple-system, Roboto, Helvetica, Arial, sans-serif;
+
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-fg: var(--text);
+  --color-muted: var(--text-muted);
+  --color-line: var(--border);
+  --color-accent: var(--accent);
+  --color-accent-2: var(--accent-2);
+  --color-track: var(--track);
+
+  --shadow-card: var(--shadow);
+  --shadow-card-hover: var(--shadow-hover);
+}
+
+/* Cores e animações independentes de tema. */
+@theme {
+  --color-star: #f5b014;
+
+  --animate-spin-in: spin-in 0.8s ease;
+  --animate-fade-in: fade-in 0.2s ease;
+  --animate-pop-in: pop-in 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+  --animate-float: float 3s ease-in-out infinite;
+  --animate-wobble: wobble 1.6s ease-in-out infinite;
+
+  @keyframes spin-in {
+    from {
+      transform: rotate(-180deg) scale(0.6);
+      opacity: 0;
+    }
+    to {
+      transform: rotate(0) scale(1);
+      opacity: 1;
+    }
+  }
+
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+  }
+
+  @keyframes pop-in {
+    from {
+      opacity: 0;
+      transform: translateY(20px) scale(0.96);
+    }
+  }
+
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+
+  @keyframes wobble {
+    0%,
+    100% {
+      transform: rotate(-8deg);
+    }
+    50% {
+      transform: rotate(8deg);
+    }
+  }
+}

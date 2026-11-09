@@ -1,19 +1,18 @@
 import TrainerCard from './TrainerCard';
-import '../css/TrainerList.css';
 
 // Seção que lista todos os treinadores presentes nos dados.
 function TrainerList({ trainers, pokemonById, onSelectPokemon }) {
   return (
-    <section className="trainer-section">
-      <div className="trainer-section__intro">
-        <h2>Treinadores</h2>
-        <p>
+    <section>
+      <div className="mb-[22px]">
+        <h2 className="mb-1 text-[1.8rem] font-black">Treinadores</h2>
+        <p className="max-w-[560px] text-muted">
           Consulte os treinadores, suas insígnias e os Pokémon relacionados.
           Clique em um Pokémon para ver os detalhes.
         </p>
       </div>
 
-      <div className="trainer-list">
+      <div className="grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-[18px] max-[520px]:grid-cols-1">
         {trainers.map((trainer) => (
           <TrainerCard
             key={trainer.id}

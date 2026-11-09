@@ -1,5 +1,4 @@
 import { MAX_STAT } from '../utils/pokemonHelpers';
-import '../css/StatBar.css';
 
 // Cor da barra conforme o valor do atributo (vermelho -> verde).
 function getBarColor(value) {
@@ -15,12 +14,12 @@ function StatBar({ label, value }) {
   const percent = Math.min((value / MAX_STAT) * 100, 100);
 
   return (
-    <div className="stat-bar">
-      <span className="stat-bar__label">{label}</span>
-      <span className="stat-bar__value">{value}</span>
-      <div className="stat-bar__track">
+    <div className="grid grid-cols-[44px_36px_1fr] items-center gap-2.5 text-[0.82rem]">
+      <span className="font-semibold text-muted">{label}</span>
+      <span className="text-right font-bold tabular-nums">{value}</span>
+      <div className="h-[9px] overflow-hidden rounded-full bg-track">
         <div
-          className="stat-bar__fill"
+          className="h-full rounded-full transition-[width] duration-600 ease-[cubic-bezier(0.22,1,0.36,1)]"
           style={{ width: `${percent}%`, backgroundColor: getBarColor(value) }}
         />
       </div>

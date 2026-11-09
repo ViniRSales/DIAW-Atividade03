@@ -1,5 +1,3 @@
-import '../css/Controls.css';
-
 // Opções de ordenação disponíveis para a lista de Pokémon.
 export const SORT_OPTIONS = [
   { value: 'id', label: 'Número' },
@@ -13,6 +11,9 @@ export const SORT_OPTIONS = [
   { value: 'total', label: 'Total' },
 ];
 
+const PILL =
+  'rounded-full border px-4 py-[9px] text-[0.88rem] font-bold transition duration-150 hover:-translate-y-0.5 hover:shadow-card';
+
 // Barra de controles: ordenação, direção, favoritos e Pokémon aleatório.
 function Controls({
   sortBy,
@@ -25,14 +26,14 @@ function Controls({
   onRandom,
 }) {
   return (
-    <div className="controls">
-      <div className="controls__group">
-        <label className="controls__label" htmlFor="sort">
+    <div className="flex flex-wrap items-center justify-between gap-3 max-[600px]:justify-center">
+      <div className="flex items-center gap-2">
+        <label className="text-[0.82rem] font-bold text-muted" htmlFor="sort">
           Ordenar por
         </label>
         <select
           id="sort"
-          className="controls__select"
+          className="cursor-pointer rounded-[10px] border border-line bg-surface px-3 py-2 text-[0.9rem] font-semibold text-fg focus-visible:outline-2 focus-visible:outline-accent-2"
           value={sortBy}
           onChange={(e) => onSortBy(e.target.value)}
         >
@@ -43,7 +44,7 @@ function Controls({
           ))}
         </select>
         <button
-          className="controls__dir"
+          className="size-[38px] rounded-[10px] border border-line bg-surface text-[1.1rem] font-extrabold transition-transform duration-150 hover:-translate-y-0.5"
           onClick={onToggleDir}
           title={sortDir === 'asc' ? 'Crescente' : 'Decrescente'}
           aria-label="Inverter ordem"
@@ -52,14 +53,21 @@ function Controls({
         </button>
       </div>
 
-      <div className="controls__group controls__group--right">
+      <div className="ml-auto flex items-center gap-2 max-[600px]:ml-0">
         <button
-          className={`controls__toggle ${onlyFavorites ? 'is-active' : ''}`}
+          className={`${PILL} ${
+            onlyFavorites
+              ? 'border-star bg-star text-[#1b1d29]'
+              : 'border-line bg-surface'
+          }`}
           onClick={onToggleFavorites}
         >
           ★ Favoritos ({favoritesCount})
         </button>
-        <button className="controls__random" onClick={onRandom}>
+        <button
+          className={`${PILL} border-transparent bg-linear-135 from-accent to-accent-2 text-white`}
+          onClick={onRandom}
+        >
           🎲 Aleatório
         </button>
       </div>

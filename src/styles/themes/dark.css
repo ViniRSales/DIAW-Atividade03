@@ -1,0 +1,15 @@
+/* Tema escuro. Ativado por <html data-theme="dark">. */
+[data-theme='dark'] {
+  --bg: #0f1117;
+  --bg-gradient: linear-gradient(160deg, #141826 0%, #1c1430 100%);
+  --surface: #1a1d29;
+  --surface-2: #222634;
+  --text: #f3f5fb;
+  --text-muted: #9aa0b5;
+  --border: #2c3042;
+  --shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+  --shadow-hover: 0 14px 34px rgba(0, 0, 0, 0.6);
+  --accent: #ff6b6b;
+  --accent-2: #748ffc;
+  --track: #2c3042;
+}

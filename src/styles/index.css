@@ -1,0 +1,49 @@
+@import 'tailwindcss';
+
+/* Temas (valores das variáveis) e tokens do Tailwind. */
+@import './themes/light.css';
+@import './themes/dark.css';
+@import './tokens.css';
+
+/* Permite usar `dark:` quando necessário, ligado ao atributo data-theme. */
+@custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));
+
+@layer base {
+  html,
+  body {
+    min-height: 100%;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    color: var(--color-fg);
+    background-color: var(--bg);
+    background-image: var(--bg-gradient);
+    background-attachment: fixed;
+    -webkit-font-smoothing: antialiased;
+    transition:
+      background-color 0.3s ease,
+      color 0.3s ease;
+  }
+
+  #root {
+    min-height: 100vh;
+  }
+
+  button {
+    cursor: pointer;
+  }
+
+  a {
+    color: var(--color-accent-2);
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-line);
+    border-radius: 10px;
+  }
+}
