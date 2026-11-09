@@ -28,6 +28,36 @@ export function getTypeColor(typeName) {
   return TYPE_COLORS[typeName] || '#777';
 }
 
+// IDs de cada tipo na PokéAPI (usados para montar a URL do ícone).
+export const TYPE_IDS = {
+  Normal: 1,
+  Fighting: 2,
+  Flying: 3,
+  Poison: 4,
+  Ground: 5,
+  Rock: 6,
+  Bug: 7,
+  Ghost: 8,
+  Steel: 9,
+  Fire: 10,
+  Water: 11,
+  Grass: 12,
+  Electric: 13,
+  Psychic: 14,
+  Ice: 15,
+  Dragon: 16,
+  Dark: 17,
+  Fairy: 18,
+};
+
+// URL do ícone (símbolo "novo") de um tipo, a partir da PokéAPI.
+// Fonte: PokéAPI sprites — types/generation-ix/scarlet-violet.
+export function getTypeIcon(typeName) {
+  const id = TYPE_IDS[typeName];
+  if (!id) return null;
+  return `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/types/generation-ix/scarlet-violet/${id}.png`;
+}
+
 // Monta a URL da imagem (sprite oficial) do Pokémon a partir do ID.
 // Fonte: PokéAPI sprites (official-artwork). Documentado no README.
 export function getPokemonImage(id) {
