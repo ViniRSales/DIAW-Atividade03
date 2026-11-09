@@ -71,6 +71,10 @@ function PokemonDetails({
   pokemonById,
   onBack,
   onSelectPokemon,
+  onPrev,
+  onNext,
+  prevPokemon,
+  nextPokemon,
   trainers = [],
   isFavorite,
   onToggleFavorite,
@@ -84,14 +88,16 @@ function PokemonDetails({
     window.scrollTo({ top: 0 });
   }, [pokemon.id]);
 
-  // ESC também volta para a lista.
+  // ESC volta para a lista; setas ← / → navegam entre os Pokémon.
   useEffect(() => {
     function handleKey(e) {
       if (e.key === 'Escape') onBack();
+      else if (e.key === 'ArrowLeft' && onPrev) onPrev();
+      else if (e.key === 'ArrowRight' && onNext) onNext();
     }
     document.addEventListener('keydown', handleKey);
     return () => document.removeEventListener('keydown', handleKey);
-  }, [onBack]);
+  }, [onBack, onPrev, onNext]);
 
   const primaryType = pokemon.types[0]?.name || 'Typeless';
   const accent = getTypeColor(primaryType);
@@ -131,6 +137,35 @@ function PokemonDetails({
           >
             {isFavorite ? '★' : '☆'}
           </button>
+
+          {onPrev && (
+            <button
+              className="absolute top-1/2 left-3 grid size-10 -translate-y-1/2 place-items-center rounded-full bg-white/25 text-2xl leading-none text-white transition duration-150 hover:scale-110 hover:bg-white/40"
+              onClick={onPrev}
+              aria-label="Pokémon anterior"
+              title={
+                prevPokemon
+                  ? `${formatPokedexNumber(prevPokemon.id)} ${prevPokemon.name}`
+                  : 'Anterior'
+              }
+            >
+              ‹
+            </button>
+          )}
+          {onNext && (
+            <button
+              className="absolute top-1/2 right-3 grid size-10 -translate-y-1/2 place-items-center rounded-full bg-white/25 text-2xl leading-none text-white transition duration-150 hover:scale-110 hover:bg-white/40"
+              onClick={onNext}
+              aria-label="Próximo Pokémon"
+              title={
+                nextPokemon
+                  ? `${formatPokedexNumber(nextPokemon.id)} ${nextPokemon.name}`
+                  : 'Próximo'
+              }
+            >
+              ›
+            </button>
+          )}
 
           <img
             className="aspect-square w-full max-w-[300px] animate-float object-contain drop-shadow-[0_10px_14px_rgba(0,0,0,0.35)]"

@@ -127,6 +127,21 @@ function App() {
     setSelectedPokemon(null);
   }
 
+  // Vizinhos do Pokémon aberto, conforme a ordem/filtro atuais da lista.
+  const currentIndex = selectedPokemon
+    ? sortedPokemon.findIndex((p) => p.id === selectedPokemon.id)
+    : -1;
+  const prevPokemon = currentIndex > 0 ? sortedPokemon[currentIndex - 1] : null;
+  const nextPokemon =
+    currentIndex >= 0 && currentIndex < sortedPokemon.length - 1
+      ? sortedPokemon[currentIndex + 1]
+      : null;
+
+  // Navega para outro Pokémon sem alterar a posição de rolagem guardada.
+  function handleNavigatePokemon(pokemon) {
+    if (pokemon) setSelectedPokemon(pokemon);
+  }
+
   // Trocar de seção pelo cabeçalho fecha a aba de detalhes, sem restaurar
   // a rolagem (é outra tela).
   function handleChangeView(nextView) {
@@ -172,6 +187,14 @@ function App() {
             trainers={trainersOfSelected}
             onBack={handleBack}
             onSelectPokemon={handleSelectPokemon}
+            onPrev={
+              prevPokemon ? () => handleNavigatePokemon(prevPokemon) : null
+            }
+            onNext={
+              nextPokemon ? () => handleNavigatePokemon(nextPokemon) : null
+            }
+            prevPokemon={prevPokemon}
+            nextPokemon={nextPokemon}
             isFavorite={favorites.includes(selectedPokemon.id)}
             onToggleFavorite={toggleFavorite}
           />
