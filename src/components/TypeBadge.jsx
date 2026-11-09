@@ -1,5 +1,5 @@
-import { getTypeColor } from '../utils/pokemonHelpers'
-import '../css/TypeBadge.css'
+import { getTypeColor } from '../utils/pokemonHelpers';
+import '../css/TypeBadge.css';
 
 // Etiqueta colorida que representa um tipo de Pokémon.
 function TypeBadge({ type, size = 'md' }) {
@@ -10,7 +10,7 @@ function TypeBadge({ type, size = 'md' }) {
     >
       {type}
     </span>
-  )
+  );
 }
 
-export default TypeBadge
+export default TypeBadge;

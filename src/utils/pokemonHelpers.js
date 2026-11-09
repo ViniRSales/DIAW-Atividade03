@@ -20,27 +20,27 @@ export const TYPE_COLORS = {
   Dragon: '#6F35FC',
   Steel: '#B7B7CE',
   Typeless: '#68A090',
-}
+};
 
 // Retorna a cor de um tipo, com fallback para cinza.
 export function getTypeColor(typeName) {
-  return TYPE_COLORS[typeName] || '#777'
+  return TYPE_COLORS[typeName] || '#777';
 }
 
 // Monta a URL da imagem (sprite oficial) do Pokémon a partir do ID.
 // Fonte: PokéAPI sprites (official-artwork). Documentado no README.
 export function getPokemonImage(id) {
-  return `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`
+  return `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`;
 }
 
 // Sprite menor/pixelado, usado como fallback caso a arte oficial falhe.
 export function getPokemonSprite(id) {
-  return `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`
+  return `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`;
 }
 
 // Formata o ID no padrão da Pokédex: 1 -> "#001".
 export function formatPokedexNumber(id) {
-  return `#${String(id).padStart(3, '0')}`
+  return `#${String(id).padStart(3, '0')}`;
 }
 
 // Lista "amigável" dos atributos (chave do JSON -> rótulo exibido + abreviação).
@@ -51,12 +51,12 @@ export const STAT_LABELS = [
   { key: 'specialAttack', label: 'Ataque Especial', short: 'SpA' },
   { key: 'specialDefense', label: 'Defesa Especial', short: 'SpD' },
   { key: 'speed', label: 'Velocidade', short: 'SPD' },
-]
+];
 
 // Valor máximo usado para calcular a largura das barras de atributo.
-export const MAX_STAT = 255
+export const MAX_STAT = 255;
 
 // Soma total dos atributos base de um Pokémon.
 export function getStatTotal(stats) {
-  return Object.values(stats).reduce((total, value) => total + value, 0)
+  return Object.values(stats).reduce((total, value) => total + value, 0);
 }

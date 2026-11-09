@@ -1,10 +1,10 @@
-import { useState } from 'react'
-import { getPokemonSprite } from '../utils/pokemonHelpers'
-import '../css/TrainerCard.css'
+import { useState } from 'react';
+import { getPokemonSprite } from '../utils/pokemonHelpers';
+import '../css/TrainerCard.css';
 
 // Miniatura de um Pokémon dentro do card de treinador.
 function MiniPokemon({ pokemon, onSelect }) {
-  const [imgError, setImgError] = useState(false)
+  const [imgError, setImgError] = useState(false);
 
   return (
     <button
@@ -18,23 +18,21 @@ function MiniPokemon({ pokemon, onSelect }) {
         loading="lazy"
         onError={(e) => {
           if (!imgError) {
-            setImgError(true)
-            e.currentTarget.style.display = 'none'
+            setImgError(true);
+            e.currentTarget.style.display = 'none';
           }
         }}
       />
       <span>{pokemon.name}</span>
     </button>
-  )
+  );
 }
 
 // Card de um treinador: nome, quantidade de insígnias e Pokémon relacionados.
 function TrainerCard({ trainer, pokemonById, onSelectPokemon }) {
   // Resolve os IDs do treinador para os objetos de Pokémon (ignora repetidos).
-  const uniqueIds = [...new Set(trainer.pokemonIds)]
-  const pokemons = uniqueIds
-    .map((id) => pokemonById[id])
-    .filter(Boolean)
+  const uniqueIds = [...new Set(trainer.pokemonIds)];
+  const pokemons = uniqueIds.map((id) => pokemonById[id]).filter(Boolean);
 
   return (
     <article className="trainer-card">
@@ -64,7 +62,7 @@ function TrainerCard({ trainer, pokemonById, onSelectPokemon }) {
         )}
       </div>
     </article>
-  )
+  );
 }
 
-export default TrainerCard
+export default TrainerCard;

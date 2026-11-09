@@ -1,11 +1,13 @@
-import '../css/SearchBar.css'
+import '../css/SearchBar.css';
 
 // Campo de pesquisa de Pokémon por nome ou ID.
 // Atualiza a lista exibida conforme o usuário digita (controlado pelo App).
 function SearchBar({ value, onChange, resultCount }) {
   return (
     <div className="search-bar">
-      <span className="search-bar__icon" aria-hidden="true">🔎</span>
+      <span className="search-bar__icon" aria-hidden="true">
+        🔎
+      </span>
       <input
         className="search-bar__input"
         type="text"
@@ -26,7 +28,7 @@ function SearchBar({ value, onChange, resultCount }) {
       )}
       <span className="search-bar__count">{resultCount} encontrados</span>
     </div>
-  )
+  );
 }
 
-export default SearchBar
+export default SearchBar;

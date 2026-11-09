@@ -1,5 +1,5 @@
-import { getTypeColor } from '../utils/pokemonHelpers'
-import '../css/TypeFilter.css'
+import { getTypeColor } from '../utils/pokemonHelpers';
+import '../css/TypeFilter.css';
 
 // Filtro por tipo de Pokémon, renderizado como botões.
 // Os tipos vêm do arquivo pokedex-data.json (prop `types`).
@@ -14,7 +14,7 @@ function TypeFilter({ types, selectedType, onSelectType }) {
       </button>
 
       {types.map((type) => {
-        const isActive = selectedType === type.name
+        const isActive = selectedType === type.name;
         return (
           <button
             key={type.id}
@@ -22,16 +22,19 @@ function TypeFilter({ types, selectedType, onSelectType }) {
             style={
               isActive
                 ? { backgroundColor: getTypeColor(type.name), color: '#fff' }
-                : { borderColor: getTypeColor(type.name), color: getTypeColor(type.name) }
+                : {
+                    borderColor: getTypeColor(type.name),
+                    color: getTypeColor(type.name),
+                  }
             }
             onClick={() => onSelectType(type.name)}
           >
             {type.name}
           </button>
-        )
+        );
       })}
     </div>
-  )
+  );
 }
 
-export default TypeFilter
+export default TypeFilter;

@@ -1,13 +1,8 @@
-import PokemonCard from './PokemonCard'
-import '../css/PokemonList.css'
+import PokemonCard from './PokemonCard';
+import '../css/PokemonList.css';
 
 // Grade de cards de Pokémon. Trata o caso de nenhum resultado encontrado.
-function PokemonList({
-  pokemonList,
-  onSelect,
-  favorites,
-  onToggleFavorite,
-}) {
+function PokemonList({ pokemonList, onSelect, favorites, onToggleFavorite }) {
   if (pokemonList.length === 0) {
     return (
       <div className="pokemon-list__empty">
@@ -15,7 +10,7 @@ function PokemonList({
         <h3>Nenhum Pokémon encontrado</h3>
         <p>Tente ajustar a busca ou os filtros selecionados.</p>
       </div>
-    )
+    );
   }
 
   return (
@@ -30,7 +25,7 @@ function PokemonList({
         />
       ))}
     </div>
-  )
+  );
 }
 
-export default PokemonList
+export default PokemonList;

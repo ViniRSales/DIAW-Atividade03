@@ -1,4 +1,4 @@
-import '../css/Controls.css'
+import '../css/Controls.css';
 
 // Opções de ordenação disponíveis para a lista de Pokémon.
 export const SORT_OPTIONS = [
@@ -11,7 +11,7 @@ export const SORT_OPTIONS = [
   { value: 'specialDefense', label: 'Defesa Especial' },
   { value: 'speed', label: 'Velocidade' },
   { value: 'total', label: 'Total' },
-]
+];
 
 // Barra de controles: ordenação, direção, favoritos e Pokémon aleatório.
 function Controls({
@@ -64,7 +64,7 @@ function Controls({
         </button>
       </div>
     </div>
-  )
+  );
 }
 
-export default Controls
+export default Controls;

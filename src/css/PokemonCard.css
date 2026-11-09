@@ -9,7 +9,9 @@
   background: var(--surface);
   box-shadow: var(--shadow);
   cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
   outline: none;
 }
 
@@ -37,7 +39,9 @@
   font-size: 1.25rem;
   line-height: 1;
   color: var(--text-muted);
-  transition: transform 0.15s ease, color 0.15s ease;
+  transition:
+    transform 0.15s ease,
+    color 0.15s ease;
 }
 
 .pokemon-card__fav:hover {

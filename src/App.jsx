@@ -1,127 +1,127 @@
-import { useEffect, useState } from 'react'
-import Header from './components/Header'
-import SearchBar from './components/SearchBar'
-import TypeFilter from './components/TypeFilter'
-import PokemonList from './components/PokemonList'
-import PokemonDetails from './components/PokemonDetails'
-import TrainerList from './components/TrainerList'
-import Controls from './components/Controls'
-import { getStatTotal } from './utils/pokemonHelpers'
-import pokedexData from './data/pokedex-data.json'
-import './css/App.css'
+import { useEffect, useState } from 'react';
+import Header from './components/Header';
+import SearchBar from './components/SearchBar';
+import TypeFilter from './components/TypeFilter';
+import PokemonList from './components/PokemonList';
+import PokemonDetails from './components/PokemonDetails';
+import TrainerList from './components/TrainerList';
+import Controls from './components/Controls';
+import { getStatTotal } from './utils/pokemonHelpers';
+import pokedexData from './data/pokedex-data.json';
+import './css/App.css';
 
 function App() {
   // Dados brutos vindos do arquivo JSON.
-  const allPokemon = pokedexData.pokemon
-  const allTrainers = pokedexData.trainers
+  const allPokemon = pokedexData.pokemon;
+  const allTrainers = pokedexData.trainers;
 
   // Índice id -> Pokémon, usado para resolver os Pokémon dos treinadores.
-  const pokemonById = {}
+  const pokemonById = {};
   allPokemon.forEach((pokemon) => {
-    pokemonById[pokemon.id] = pokemon
-  })
+    pokemonById[pokemon.id] = pokemon;
+  });
 
   // Tipos disponíveis para o filtro: apenas os que realmente aparecem nos
   // Pokémon, ordenados alfabeticamente (ignora "Typeless").
-  const usedTypeNames = new Set()
+  const usedTypeNames = new Set();
   allPokemon.forEach((pokemon) =>
-    pokemon.types.forEach((type) => usedTypeNames.add(type.name))
-  )
+    pokemon.types.forEach((type) => usedTypeNames.add(type.name)),
+  );
   const availableTypes = pokedexData.types
     .filter((type) => usedTypeNames.has(type.name))
-    .sort((a, b) => a.name.localeCompare(b.name))
+    .sort((a, b) => a.name.localeCompare(b.name));
 
   // Seção ativa: 'pokedex' ou 'trainers'.
-  const [view, setView] = useState('pokedex')
+  const [view, setView] = useState('pokedex');
 
   // Tema claro/escuro.
-  const [theme, setTheme] = useState('light')
+  const [theme, setTheme] = useState('light');
 
   // Favoritos (lista de IDs).
-  const [favorites, setFavorites] = useState([])
+  const [favorites, setFavorites] = useState([]);
 
   // Texto digitado no campo de pesquisa.
-  const [search, setSearch] = useState('')
+  const [search, setSearch] = useState('');
 
   // Tipo selecionado no filtro ('all' = todos).
-  const [selectedType, setSelectedType] = useState('all')
+  const [selectedType, setSelectedType] = useState('all');
 
   // Pokémon selecionado para exibição no modal de detalhes (null = fechado).
-  const [selectedPokemon, setSelectedPokemon] = useState(null)
+  const [selectedPokemon, setSelectedPokemon] = useState(null);
 
   // Ordenação: critério, direção e flag "apenas favoritos".
-  const [sortBy, setSortBy] = useState('id')
-  const [sortDir, setSortDir] = useState('asc')
-  const [onlyFavorites, setOnlyFavorites] = useState(false)
+  const [sortBy, setSortBy] = useState('id');
+  const [sortDir, setSortDir] = useState('asc');
+  const [onlyFavorites, setOnlyFavorites] = useState(false);
 
   // Lista derivada: aplica pesquisa (nome/ID), filtro por tipo e favoritos.
-  const term = search.trim().toLowerCase()
+  const term = search.trim().toLowerCase();
   const filteredPokemon = allPokemon.filter((pokemon) => {
     // Filtro "apenas favoritos"
-    if (onlyFavorites && !favorites.includes(pokemon.id)) return false
+    if (onlyFavorites && !favorites.includes(pokemon.id)) return false;
 
     // Filtro por tipo
     const matchesType =
       selectedType === 'all' ||
-      pokemon.types.some((type) => type.name === selectedType)
-    if (!matchesType) return false
+      pokemon.types.some((type) => type.name === selectedType);
+    if (!matchesType) return false;
 
     // Pesquisa por nome ou ID
-    if (!term) return true
-    const matchesName = pokemon.name.toLowerCase().includes(term)
+    if (!term) return true;
+    const matchesName = pokemon.name.toLowerCase().includes(term);
     const matchesId =
       String(pokemon.id) === term ||
-      String(pokemon.id).padStart(3, '0') === term.replace('#', '')
-    return matchesName || matchesId
-  })
+      String(pokemon.id).padStart(3, '0') === term.replace('#', '');
+    return matchesName || matchesId;
+  });
 
   // Ordena a lista filtrada conforme critério e direção escolhidos.
   const sortedPokemon = [...filteredPokemon].sort((a, b) => {
-    let comparison
+    let comparison;
     if (sortBy === 'name') {
-      comparison = a.name.localeCompare(b.name)
+      comparison = a.name.localeCompare(b.name);
     } else if (sortBy === 'id') {
-      comparison = a.id - b.id
+      comparison = a.id - b.id;
     } else if (sortBy === 'total') {
-      comparison = getStatTotal(a.stats) - getStatTotal(b.stats)
+      comparison = getStatTotal(a.stats) - getStatTotal(b.stats);
     } else {
-      comparison = a.stats[sortBy] - b.stats[sortBy]
+      comparison = a.stats[sortBy] - b.stats[sortBy];
     }
-    return sortDir === 'asc' ? comparison : -comparison
-  })
+    return sortDir === 'asc' ? comparison : -comparison;
+  });
 
   // Abre um Pokémon aleatório (respeitando os filtros atuais, se houver).
   function handleRandom() {
-    const pool = sortedPokemon.length > 0 ? sortedPokemon : allPokemon
-    const randomPokemon = pool[Math.floor(Math.random() * pool.length)]
-    setSelectedPokemon(randomPokemon)
+    const pool = sortedPokemon.length > 0 ? sortedPokemon : allPokemon;
+    const randomPokemon = pool[Math.floor(Math.random() * pool.length)];
+    setSelectedPokemon(randomPokemon);
   }
 
   // Aplica o tema ao elemento raiz do documento.
   useEffect(() => {
-    document.documentElement.setAttribute('data-theme', theme)
-  }, [theme])
+    document.documentElement.setAttribute('data-theme', theme);
+  }, [theme]);
 
   function toggleTheme() {
-    setTheme((prev) => (prev === 'light' ? 'dark' : 'light'))
+    setTheme((prev) => (prev === 'light' ? 'dark' : 'light'));
   }
 
   function toggleFavorite(id) {
     setFavorites((prev) =>
-      prev.includes(id) ? prev.filter((favId) => favId !== id) : [...prev, id]
-    )
+      prev.includes(id) ? prev.filter((favId) => favId !== id) : [...prev, id],
+    );
   }
 
   function handleSelectPokemon(pokemon) {
-    setSelectedPokemon(pokemon)
+    setSelectedPokemon(pokemon);
   }
 
   // Treinadores que possuem o Pokémon atualmente selecionado.
   const trainersOfSelected = selectedPokemon
     ? allTrainers.filter((trainer) =>
-        trainer.pokemonIds.includes(selectedPokemon.id)
+        trainer.pokemonIds.includes(selectedPokemon.id),
       )
-    : []
+    : [];
 
   return (
     <div className="app">
@@ -195,7 +195,7 @@ function App() {
         </p>
       </footer>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;

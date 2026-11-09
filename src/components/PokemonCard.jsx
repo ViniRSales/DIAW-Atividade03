@@ -1,36 +1,36 @@
-import { useState } from 'react'
-import TypeBadge from './TypeBadge'
+import { useState } from 'react';
+import TypeBadge from './TypeBadge';
 import {
   formatPokedexNumber,
   getPokemonImage,
   getPokemonSprite,
   getTypeColor,
   STAT_LABELS,
-} from '../utils/pokemonHelpers'
-import '../css/PokemonCard.css'
+} from '../utils/pokemonHelpers';
+import '../css/PokemonCard.css';
 
 // Card de um Pokémon na listagem da Pokédex.
 // Mostra número, imagem, nome, tipos e os atributos resumidos.
 function PokemonCard({ pokemon, onSelect, isFavorite, onToggleFavorite }) {
-  const [imgError, setImgError] = useState(false)
+  const [imgError, setImgError] = useState(false);
 
-  const primaryType = pokemon.types[0]?.name || 'Typeless'
-  const accent = getTypeColor(primaryType)
+  const primaryType = pokemon.types[0]?.name || 'Typeless';
+  const accent = getTypeColor(primaryType);
 
   // Cor de fundo suave baseada no tipo primário.
   const cardStyle = {
     background: `linear-gradient(160deg, ${accent}22 0%, var(--surface) 60%)`,
     borderColor: `${accent}55`,
-  }
+  };
 
   function handleImgError() {
     // Se a arte oficial falhar, tenta o sprite pixelado.
-    if (!imgError) setImgError(true)
+    if (!imgError) setImgError(true);
   }
 
   const imageSrc = imgError
     ? getPokemonSprite(pokemon.id)
-    : getPokemonImage(pokemon.id)
+    : getPokemonImage(pokemon.id);
 
   return (
     <article
@@ -41,8 +41,8 @@ function PokemonCard({ pokemon, onSelect, isFavorite, onToggleFavorite }) {
       tabIndex={0}
       onKeyDown={(e) => {
         if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault()
-          onSelect(pokemon)
+          e.preventDefault();
+          onSelect(pokemon);
         }
       }}
     >
@@ -52,11 +52,13 @@ function PokemonCard({ pokemon, onSelect, isFavorite, onToggleFavorite }) {
         </span>
         <button
           className={`pokemon-card__fav ${isFavorite ? 'is-active' : ''}`}
-          title={isFavorite ? 'Remover dos favoritos' : 'Adicionar aos favoritos'}
+          title={
+            isFavorite ? 'Remover dos favoritos' : 'Adicionar aos favoritos'
+          }
           aria-label="Favoritar"
           onClick={(e) => {
-            e.stopPropagation()
-            onToggleFavorite(pokemon.id)
+            e.stopPropagation();
+            onToggleFavorite(pokemon.id);
           }}
         >
           {isFavorite ? '★' : '☆'}
@@ -96,7 +98,7 @@ function PokemonCard({ pokemon, onSelect, isFavorite, onToggleFavorite }) {
         ))}
       </ul>
     </article>
-  )
+  );
 }
 
-export default PokemonCard
+export default PokemonCard;

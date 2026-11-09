@@ -7,7 +7,9 @@
   border-radius: 14px;
   padding: 10px 16px;
   box-shadow: var(--shadow);
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .search-bar:focus-within {

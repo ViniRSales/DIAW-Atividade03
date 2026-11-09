@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react'
-import TypeBadge from './TypeBadge'
-import StatBar from './StatBar'
+import { useEffect, useState } from 'react';
+import TypeBadge from './TypeBadge';
+import StatBar from './StatBar';
 import {
   formatPokedexNumber,
   getPokemonImage,
@@ -8,8 +8,8 @@ import {
   getStatTotal,
   getTypeColor,
   STAT_LABELS,
-} from '../utils/pokemonHelpers'
-import '../css/PokemonDetails.css'
+} from '../utils/pokemonHelpers';
+import '../css/PokemonDetails.css';
 
 // Modal com informações detalhadas de um Pokémon.
 // Exibe imagem, número, nome, tipos, atributos em barras, total e os
@@ -21,31 +21,31 @@ function PokemonDetails({
   isFavorite,
   onToggleFavorite,
 }) {
-  const [imgError, setImgError] = useState(false)
+  const [imgError, setImgError] = useState(false);
 
   // Fecha o modal ao pressionar ESC.
   useEffect(() => {
     function handleKey(e) {
-      if (e.key === 'Escape') onClose()
+      if (e.key === 'Escape') onClose();
     }
-    document.addEventListener('keydown', handleKey)
+    document.addEventListener('keydown', handleKey);
     // Impede o scroll da página por trás do modal.
-    document.body.style.overflow = 'hidden'
+    document.body.style.overflow = 'hidden';
     return () => {
-      document.removeEventListener('keydown', handleKey)
-      document.body.style.overflow = ''
-    }
-  }, [onClose])
+      document.removeEventListener('keydown', handleKey);
+      document.body.style.overflow = '';
+    };
+  }, [onClose]);
 
-  if (!pokemon) return null
+  if (!pokemon) return null;
 
-  const primaryType = pokemon.types[0]?.name || 'Typeless'
-  const accent = getTypeColor(primaryType)
-  const total = getStatTotal(pokemon.stats)
+  const primaryType = pokemon.types[0]?.name || 'Typeless';
+  const accent = getTypeColor(primaryType);
+  const total = getStatTotal(pokemon.stats);
 
   const imageSrc = imgError
     ? getPokemonSprite(pokemon.id)
-    : getPokemonImage(pokemon.id)
+    : getPokemonImage(pokemon.id);
 
   return (
     <div className="details-overlay" onClick={onClose}>
@@ -72,7 +72,9 @@ function PokemonDetails({
             className={`details__fav ${isFavorite ? 'is-active' : ''}`}
             onClick={() => onToggleFavorite(pokemon.id)}
             aria-label="Favoritar"
-            title={isFavorite ? 'Remover dos favoritos' : 'Adicionar aos favoritos'}
+            title={
+              isFavorite ? 'Remover dos favoritos' : 'Adicionar aos favoritos'
+            }
           >
             {isFavorite ? '★' : '☆'}
           </button>
@@ -142,7 +144,7 @@ function PokemonDetails({
         </div>
       </div>
     </div>
-  )
+  );
 }
 
-export default PokemonDetails
+export default PokemonDetails;

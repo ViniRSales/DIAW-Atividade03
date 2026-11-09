@@ -1,5 +1,5 @@
-import TrainerCard from './TrainerCard'
-import '../css/TrainerList.css'
+import TrainerCard from './TrainerCard';
+import '../css/TrainerList.css';
 
 // Seção que lista todos os treinadores presentes nos dados.
 function TrainerList({ trainers, pokemonById, onSelectPokemon }) {
@@ -24,7 +24,7 @@ function TrainerList({ trainers, pokemonById, onSelectPokemon }) {
         ))}
       </div>
     </section>
-  )
+  );
 }
 
-export default TrainerList
+export default TrainerList;

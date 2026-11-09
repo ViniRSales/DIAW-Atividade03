@@ -1,4 +1,4 @@
-import '../css/Header.css'
+import '../css/Header.css';
 
 // Cabeçalho da aplicação, com título, navegação entre seções e troca de tema.
 function Header({ activeView, onChangeView, theme, onToggleTheme }) {
@@ -36,7 +36,7 @@ function Header({ activeView, onChangeView, theme, onToggleTheme }) {
         {theme === 'dark' ? '☀️' : '🌙'}
       </button>
     </header>
-  )
+  );
 }
 
-export default Header
+export default Header;
